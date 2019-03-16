@@ -153,7 +153,7 @@ def is_movepossible(idx, move_direction):
 		else:
 			flag = False
 	elif move_direction == 'up':
-		if idx > (GAME_W-1):
+		if idx > (2 * GAME_W-1):
 			flag = True
 		else:
 			flag = False
