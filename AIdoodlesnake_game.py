@@ -2,6 +2,7 @@
 import random
 import pygame
 import sys
+import time
 from pygame.locals import *
 
 SCREEN_WIDTH = 800
@@ -104,14 +105,20 @@ def game_start():
 
 def game_over():
 	title_Font = pygame.font.SysFont('SimHei', 120) 
-	title_game = title_Font.render('Game', True, (233, 150, 122))
-	title_over = title_Font.render('Over', True, (233, 150, 122))
-	game_Rect = title_game.get_rect()
-	over_Rect = title_over.get_rect()
-	game_Rect.midtop = (SCREEN_WIDTH/2, 70)
-	over_Rect.midtop = (SCREEN_WIDTH/2, game_Rect.height+70+25)
-	screen.blit(title_game, game_Rect)
-	screen.blit(title_over, over_Rect)
+	title_gameover = title_Font.render('Game Over', True, (255, 0, 0))
+	gameover_Rect = title_gameover.get_rect()
+	gameover_Rect.midtop = (SCREEN_WIDTH/2, 120)
+	screen.blit(title_gameover, gameover_Rect)
+
+	gameauthor_line1 = game_font.render('韩思工作室出品 ', True, (20, 20, 255))
+	gameauthor_line1_Rect = gameauthor_line1.get_rect()
+	gameauthor_line1_Rect.midtop = (SCREEN_WIDTH/2, 350)
+	screen.blit(gameauthor_line1, gameauthor_line1_Rect)
+	gameauthor_line2 = game_font.render('（微信公众号：hanshiqiang365）', True, (20, 20, 255))
+	gameauthor_line2_Rect = gameauthor_line2.get_rect()
+	gameauthor_line2_Rect.midtop = (SCREEN_WIDTH/2, 390)
+	screen.blit(gameauthor_line2, gameauthor_line2_Rect)
+	
 	pygame.display.update()
 	pygame.time.wait(500)
 	while True:
@@ -151,12 +158,12 @@ def is_movepossible(idx, move_direction):
 		if idx%GAME_W < (GAME_W-1):
 			flag = True
 		else:
-			flag = False
+                        flag = False
 	elif move_direction == 'up':
-		if idx > (2 * GAME_W-1):
-			flag = True
-		else:
-			flag = False
+                if idx > (3 * GAME_W - 1):
+                        flag = True
+                else:
+                        flag = False
 	elif move_direction == 'down':
 		if idx < (FIELD_SIZE - GAME_W):
 			flag = True
@@ -336,7 +343,9 @@ def game_play():
 		init_snake(snake_Coords)
 		create_food(food_location)
 		score = len(snake_Coords)-3
-		print_text(screen, game_font, 30, 7, f'进度: {score//9.2}%')
+		game_runtime = round(time.time() - game_starttime)
+		print_text(screen, game_font, 30, 7, f'进度: {round(score//9.2)}%')
+		print_text(screen, game_font, 330, 7, f'计时: {round(game_runtime // 3600)}:{round((game_runtime % 3600) // 60)}:{round((game_runtime % 3600) % 60)}')
 		print_text(screen, game_font, 680, 7, f'得分: {score}')
 		
 		reset_board = board_reset(snake_Coords, board, food_location)
@@ -369,7 +378,7 @@ def game_play():
 		game_clock.tick(Display_Clock)
 
 def main():
-        global screen, game_font, game_clock
+        global screen, game_font, game_clock, game_starttime
         pygame.init()
 
         gameIcon = pygame.image.load("snake.png")
@@ -384,6 +393,8 @@ def main():
 
         game_clock = pygame.time.Clock()
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        game_starttime = time.time()
 
         game_start()
         while True:
