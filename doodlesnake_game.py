@@ -1,4 +1,4 @@
-#author: hanshiqiang365
+#author: hanshiqiang365 （微信公众号）
 import random
 import sys
 import time
@@ -51,11 +51,11 @@ def get_food_style():
 def main():
     pygame.init()
 
-    gameIcon = pygame.image.load("snake.png")
+    gameIcon = pygame.image.load("game_icon.png")
     pygame.display.set_icon(gameIcon)
 
     pygame.mixer.init()
-    pygame.mixer.music.load("bgm.wav")
+    pygame.mixer.music.load("game_bgm.wav")
     pygame.mixer.music.play(-1)
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -151,7 +151,7 @@ def main():
             pygame.draw.rect(screen, DARK, (s[0] * SIZE + LINE_WIDTH, s[1] * SIZE + LINE_WIDTH,
                                             SIZE - LINE_WIDTH * 2, SIZE - LINE_WIDTH * 2), 0)
 
-        print_text(screen, font1, 30, 7, f'速度: {score//100}')
+        print_text(screen, font1, 30, 7, f'进度: {round(score//66)}%')
         print_text(screen, font1, 450, 7, f'得分: {score}')
 
         if game_over:
